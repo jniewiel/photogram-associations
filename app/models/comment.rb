@@ -33,7 +33,7 @@ class Comment < ApplicationRecord
              foreign_key: "author_id",
              required: false)
 
-  belongs_to(:photos,
+  belongs_to(:photo,
              class_name: "Photo",
              foreign_key: "photo_id",
              required: false)

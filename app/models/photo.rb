@@ -77,13 +77,17 @@ class Photo < ApplicationRecord
   #    return matching_users
   # end
 
-  # def fan_list
-  #   my_fans = self.fans
-  #   array_of_usernames = Array.new
-  #   my_fans.each do |a_user|
-  #     array_of_usernames.push(a_user.username)
-  #   end
-  #   formatted_usernames = array_of_usernames.to_sentence
-  #   return formatted_usernames
-  # end
+  def fan_list
+    my_fans = self.fans
+
+    array_of_usernames = Array.new
+
+    my_fans.each do |a_user|
+      array_of_usernames.push(a_user.username)
+    end
+
+    formatted_usernames = array_of_usernames.to_sentence
+    
+    return formatted_usernames
+  end
 end

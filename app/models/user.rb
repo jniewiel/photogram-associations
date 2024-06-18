@@ -107,27 +107,27 @@ class User < ApplicationRecord
     return unique_matching_photos
   end
 
-  def sent_follow_requests
-    # my_id = self.id
-    # matching_follow_requests = FollowRequest.where({ :sender_id => my_id })
-    # return matching_follow_requests
+  # def sent_follow_requests
+  #    my_id = self.id
+  #    matching_follow_requests = FollowRequest.where({ :sender_id => my_id })
+  #    return matching_follow_requests
+  # end
 
-    has_many(:sent_follow_requests,
-             class_name: "FollowRequest",
-             foreign_key: "sender_id",
-             dependent: :destroy)
-  end
+  has_many(:sent_follow_requests,
+           class_name: "FollowRequest",
+           foreign_key: "sender_id",
+           dependent: :destroy)
 
-  def received_follow_requests
-    # my_id = self.id
-    # matching_follow_requests = FollowRequest.where({ :recipient_id => my_id })
-    # return matching_follow_requests
+  # def received_follow_requests
+  #    my_id = self.id
+  #    matching_follow_requests = FollowRequest.where({ :recipient_id => my_id })
+  #    return matching_follow_requests
+  # end
 
-    has_many(:received_follow_requests,
-             class_name: "FollowRequest",
-             foreign_key: "recipient_id",
-             dependent: :destroy)
-  end
+  has_many(:received_follow_requests,
+           class_name: "FollowRequest",
+           foreign_key: "recipient_id",
+           dependent: :destroy)
 
   def accepted_sent_follow_requests
     my_sent_follow_requests = self.sent_follow_requests
