@@ -30,7 +30,7 @@ class Photo < ApplicationRecord
   # Photo#fans: returns rows from the users table associated to this photo through its likes
 
   belongs_to(:poster,
-           class_name: "Poster",
+           class_name: "User",
            foreign_key: "owner_id",
            required: false)
 
@@ -87,7 +87,7 @@ class Photo < ApplicationRecord
     end
 
     formatted_usernames = array_of_usernames.to_sentence
-    
+
     return formatted_usernames
   end
 end
