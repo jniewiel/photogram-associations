@@ -18,7 +18,7 @@ class User < ApplicationRecord
   })
 
   # Association accessor methods to define:
-  
+
   ## Direct associations
 
   # User#comments: returns rows from the comments table associated to this user by the author_id column
@@ -31,20 +31,17 @@ class User < ApplicationRecord
 
   # User#received_follow_requests: returns rows from the follow requests table associated to this user by the recipient_id column
 
-
   ### Scoped direct associations
 
   # User#accepted_sent_follow_requests: returns rows from the follow requests table associated to this user by the sender_id column, where status is 'accepted'
 
   # User#accepted_received_follow_requests: returns rows from the follow requests table associated to this user by the recipient_id column, where status is 'accepted'
 
-
   ## Indirect associations
 
   # User#liked_photos: returns rows from the photos table associated to this user through its likes
 
   # User#commented_photos: returns rows from the photos table associated to this user through its comments
-
 
   ### Indirect associations built on scoped associations
 
@@ -82,7 +79,7 @@ class User < ApplicationRecord
 
   def liked_photos
     my_likes = self.likes
-    
+
     array_of_photo_ids = Array.new
 
     my_likes.each do |a_like|
@@ -96,7 +93,7 @@ class User < ApplicationRecord
 
   def commented_photos
     my_comments = self.comments
-    
+
     array_of_photo_ids = Array.new
 
     my_comments.each do |a_comment|
@@ -111,19 +108,25 @@ class User < ApplicationRecord
   end
 
   def sent_follow_requests
-    my_id = self.id
+    # my_id = self.id
+    # matching_follow_requests = FollowRequest.where({ :sender_id => my_id })
+    # return matching_follow_requests
 
-    matching_follow_requests = FollowRequest.where({ :sender_id => my_id })
-
-    return matching_follow_requests
+    has_many(:sent_follow_requests,
+             class_name: "FollowRequest",
+             foreign_key: "sender_id",
+             dependent: :destroy)
   end
 
   def received_follow_requests
-    my_id = self.id
+    # my_id = self.id
+    # matching_follow_requests = FollowRequest.where({ :recipient_id => my_id })
+    # return matching_follow_requests
 
-    matching_follow_requests = FollowRequest.where({ :recipient_id => my_id })
-
-    return matching_follow_requests
+    has_many(:received_follow_requests,
+             class_name: "FollowRequest",
+             foreign_key: "recipient_id",
+             dependent: :destroy)
   end
 
   def accepted_sent_follow_requests
@@ -144,7 +147,7 @@ class User < ApplicationRecord
 
   def followers
     my_accepted_received_follow_requests = self.accepted_received_follow_requests
-    
+
     array_of_user_ids = Array.new
 
     my_accepted_received_follow_requests.each do |a_follow_request|
@@ -158,7 +161,7 @@ class User < ApplicationRecord
 
   def leaders
     my_accepted_sent_follow_requests = self.accepted_sent_follow_requests
-    
+
     array_of_user_ids = Array.new
 
     my_accepted_sent_follow_requests.each do |a_follow_request|
@@ -174,7 +177,7 @@ class User < ApplicationRecord
     array_of_photo_ids = Array.new
 
     my_leaders = self.leaders
-    
+
     my_leaders.each do |a_user|
       leader_own_photos = a_user.own_photos
 
@@ -192,7 +195,7 @@ class User < ApplicationRecord
     array_of_photo_ids = Array.new
 
     my_leaders = self.leaders
-    
+
     my_leaders.each do |a_user|
       leader_liked_photos = a_user.liked_photos
 
